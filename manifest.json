@@ -1,7 +1,7 @@
 {
   "name": "My Web App",
   "short_name": "Web App",
-  "start_url": "https://m-t-curran.github.io/ignite/index.html",
+  "start_url": "https://m-t-curran.github.io/ignite/",
   "display": "standalone",
   "icons": [
     {
