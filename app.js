@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
   const getLocationBtn = document.getElementById("getLocationBtn");
+  const locationMessage = document.getElementById("locationMessage");
   
   getLocationBtn.addEventListener("click", function() {
     if ("geolocation" in navigator) {
@@ -7,30 +8,28 @@ document.addEventListener("DOMContentLoaded", function() {
         function(position) {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
-          console.log("Latitude:", latitude);
-          console.log("Longitude:", longitude);
-          // You can do something with the coordinates here, such as display them on the page
-          alert("Your location: Latitude " + latitude + ", Longitude " + longitude);
+          // Display the location message on the screen
+          locationMessage.innerHTML = "<h3>Your location: Latitude " + latitude + ", Longitude " + longitude + "</h3>";
         },
         function(error) {
           switch (error.code) {
             case error.PERMISSION_DENIED:
-              console.error("User denied the request for Geolocation.");
+              locationMessage.innerHTML = "<h3>User denied the request for Geolocation.</h3>";
               break;
             case error.POSITION_UNAVAILABLE:
-              console.error("Location information is unavailable.");
+              locationMessage.innerHTML = "<h3>Location information is unavailable.</h3>";
               break;
             case error.TIMEOUT:
-              console.error("The request to get user location timed out.");
+              locationMessage.innerHTML = "<h3>The request to get user location timed out.</h3>";
               break;
             case error.UNKNOWN_ERROR:
-              console.error("An unknown error occurred.");
+              locationMessage.innerHTML = "<h3>An unknown error occurred.</h3>";
               break;
           }
         }
       );
     } else {
-      console.error("Geolocation is not supported by this browser.");
+      locationMessage.innerHTML = "<h3>Geolocation is not supported by this browser.</h3>";
     }
   });
 });
