@@ -1,33 +1,36 @@
-// Check if the browser supports the beforeinstallprompt event
-let deferredPrompt;
-
-window.addEventListener('beforeinstallprompt', (event) => {
-  // Prevent Chrome 67 and earlier from automatically showing the prompt
-  event.preventDefault();
-  // Stash the event so it can be triggered later
-  deferredPrompt = event;
-  // Update UI to notify the user they can add to home screen
-  showAddToHomeScreen();
-});
-
-// Function to show the "Add to Home Screen" button
-function showAddToHomeScreen() {
-  const btnAdd = document.getElementById('btnAdd');
-  btnAdd.style.display = 'block';
-
-  // Attach click event handler to the "Add to Home Screen" button
-  btnAdd.addEventListener('click', () => {
-    // Show the install prompt
-    deferredPrompt.prompt();
-    // Wait for the user to respond to the prompt
-    deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the A2HS prompt');
-      } else {
-        console.log('User dismissed the A2HS prompt');
-      }
-      // Clear the deferred prompt variable
-      deferredPrompt = null;
-    });
+document.addEventListener("DOMContentLoaded", function() {
+  const getLocationBtn = document.getElementById("getLocationBtn");
+  
+  getLocationBtn.addEventListener("click", function() {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          console.log("Latitude:", latitude);
+          console.log("Longitude:", longitude);
+          // You can do something with the coordinates here, such as display them on the page
+          alert("Your location: Latitude " + latitude + ", Longitude " + longitude);
+        },
+        function(error) {
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              console.error("User denied the request for Geolocation.");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              console.error("Location information is unavailable.");
+              break;
+            case error.TIMEOUT:
+              console.error("The request to get user location timed out.");
+              break;
+            case error.UNKNOWN_ERROR:
+              console.error("An unknown error occurred.");
+              break;
+          }
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
   });
-}
+});
