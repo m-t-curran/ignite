@@ -9,3 +9,7 @@ body {
   margin: 50px auto;
   text-align: center;
 }
+
+#locationMessage {
+  margin-top: 20px;
+}
